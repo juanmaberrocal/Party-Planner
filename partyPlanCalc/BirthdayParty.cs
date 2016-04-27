@@ -6,17 +6,12 @@ using System.Threading.Tasks;
 
 namespace partyPlanCalc
 {
-    class BirthdayParty
+    class BirthdayParty : Party
     {
-        // constant for food cost
-        public const int CostOfFoodPerPerson = 25;
-
         // class fields:
-        public int NumberOfPeople { get; set; }
-        public bool FancyDecorations { get; set; }
         public string CakeWriting { get; set; }
 
-        // constructor
+        // constructor:
         public BirthdayParty(int numberOfPeople, bool fancyDecorations, string cakeWriting)
         {
             NumberOfPeople = numberOfPeople;
@@ -24,7 +19,7 @@ namespace partyPlanCalc
             CakeWriting = cakeWriting;
         }
 
-        // cake sizing
+        // cake sizing:
         private int ActualLength
         {
             get
@@ -52,7 +47,7 @@ namespace partyPlanCalc
                 return 40;
         }
 
-        // calculate cost
+        // calculate cost:
         public bool CakeWritingTooLong
         {
             get
@@ -64,30 +59,16 @@ namespace partyPlanCalc
             }
         }
 
-        private decimal CalculateCostOfDecorations()
-        {
-            decimal costOfDecorations;
-            if (FancyDecorations)
-                costOfDecorations = (NumberOfPeople * 15.00M) + 50.00M;
-            else
-                costOfDecorations = (NumberOfPeople * 7.50M) + 30.00M;
-            return costOfDecorations;
-        }
-
-        public decimal Cost
+        override public decimal Cost
         {
             get
             {
-                decimal totalCost = CalculateCostOfDecorations();
-                totalCost += CostOfFoodPerPerson * NumberOfPeople;
+                decimal totalCost = base.Cost;
                 decimal cakeCost;
                 if (CakeSize() == 8)
                     cakeCost = 40.00M + ActualLength * 0.25M;
                 else
                     cakeCost = 75.00M + ActualLength * 0.25M;
-                if (NumberOfPeople > 12)
-                    totalCost += 100.00M;
-
                 return totalCost + cakeCost;
             }
         }
